@@ -1,0 +1,8 @@
+//variables environnement
+
+PORT = yournumber
+
+TOKEN_SECRET = "yourvalue"
+
+MDB_CONNECT = "your complete connection url"
+
