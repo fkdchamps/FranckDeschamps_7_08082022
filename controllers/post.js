@@ -79,7 +79,7 @@ exports.deletePost = (req, res, next) => {
 
 //GET ALL
 exports.getAllPosts = (req, res, next) => {
-  Post.find().then(//tant qu'il y en a
+  Post.find().sort({date: -1, userId: 1}).then(//tout est trouvé et trié par date + user si nécessaire. Voir comment schema date et userid.
     (posts) => {
       res.status(200).json(posts);
     }
@@ -105,7 +105,7 @@ exports.likePost = (req, res, next) => {
       /* 3 parametrages conditionnels : */
       //--------------------------------------------
       if (numLikeSent == -1){//dislike
-        if (post.usersDisliked.includes(likeUser) == false) {//user n'a jamais disliké cette post
+        if (post.usersDisliked.includes(likeUser) == false) {//user n'a jamais disliké ce post
           post.dislikes +=1;
           post.usersDisliked.push(likeUser);
           if (post.usersLiked.includes(likeUser)) {
@@ -122,7 +122,7 @@ exports.likePost = (req, res, next) => {
         if (post.usersDisliked.includes(likeUser) == true) {//user a disliké cette post
           post.dislikes += -1;
           post.usersDisliked = post.usersDisliked.filter(function(f) { return f !== likeUser });
-        }else if ((post.usersLiked.length !== 1) && (post.usersLiked.includes(likeUser) == true)) {//user a liké cette post
+        }else if (/* (post.usersLiked.length !== 1) &&  */(post.usersLiked.includes(likeUser) == true)) {//user a liké cette post
           post.likes += -1;
           post.usersLiked = post.usersLiked.filter(function(f) { return f !== likeUser });
         };
